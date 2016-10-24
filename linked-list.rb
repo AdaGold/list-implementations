@@ -21,7 +21,7 @@ class LinkedList
    def add(value)
        # Traverse to the end of the list
        # And insert a new node over there with the specified value
-       current = @head
+       current = @head  # Make a current: do NOT move the @head, or else you lose @head
        while current.next_node != nil
            current = current.next_node
        end
@@ -63,12 +63,34 @@ class LinkedList
    end
 
    def include?(key)
+     # Traverse through the list until key is found, if it is return true, else return false
+     current = @head
+     while current.next_node != nil
+        return true if current.value == key
+        current = current.next_node
+     end
+     return false
    end
 
    def size
+     current = @head
+     list_size = 1
+     return list_size if current.next_node == nil
+     while current.next_node != nil
+         list_size += 1
+         current = current.next_node
+     end
+     return list_size
    end
 
    def max
+     current = @head
+     max = current.value
+     while current.next_node != nil
+         current = current.next_node
+         max = current.value if current.value > max
+     end
+     return max
    end
 
 end
