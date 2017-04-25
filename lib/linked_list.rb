@@ -1,96 +1,103 @@
-# Quick Example of a Self Referential Data Structure in Ruby
-# NODE -> contains a value and a pointer to (next_node)
-# LinkedList -> This class holds the linked list functions - adding a node, traversing and displaying the linked list
-
 class Node
-   attr_accessor :value, :next_node
+  attr_accessor :data, :next
 
-   def initialize(val,next_in_line=nil)
-       @value = val
-       @next_node = next_in_line
-   end
+  def initialize(val,next_node=nil)
+    @data = val
+    @next = next_node
+  end
 end
 
 class LinkedList
-   def initialize(val)
-       # Initialize a new node at the head
-       @head = Node.new(val)
-   end
+  def initialize
+    @head = nil
+    @size = 0
+  end
 
-   def add(value)
-       # Traverse to the end of the list
-       # And insert a new node over there with the specified value
-       current = @head
-       while current.next_node != nil
-           current = current.next_node
-       end
-       current.next_node = Node.new(value,nil)
-       self
-   end
+  def add(value)
+    # special case: if there aren't any nodes yet
+    if @size == 0
+      @head = Node.new(value)
+      @size += 1
+    else
+      # Traverse to the end of the list
+      # And insert a new node with the specified value
+      current = @head
+      while current.next != nil
+        current = current.next
+      end
+      current.next = Node.new(value)
+      @size += 1
+    end
+    self
+  end
 
-   def delete(val)
-       current = @head
-       if current.value == val
-           # If the head is the element to be delete, the head needs to be updated
-           @head = @head.next_node
-       else
-           # ... x -> y -> z
-           # Suppose y is the value to be deleted, you need to reshape the above list to :
-           #   ... x->z
-           # ( and z is basically y.next_node )
-           current = @head
-           while (current != nil) && (current.next_node != nil) && ((current.next_node).value != val)
-               current = current.next_node
-           end
+  def delete(val)
+    return nil if @size == 0
+    if @head.data == val
+      # If the head is the element to be delete, the head needs to be updated
+      @head = @head.next
+      @size -= 1
+    else
+      # ... x -> y -> z
+      # Suppose y is the value to be deleted, you need to reshape the above list to :
+      #   ... x->z
+      previous = @head
+      current = @head.next
+      while current != nil && current.data != val
+        previous = current
+        current = current.next
+      end
 
-           if (current != nil) && (current.next_node != nil)
-               current.next_node = (current.next_node).next_node
-           end
-       end
-   end
+      if current != nil
+        previous.next = current.next
+        @size -= 1
+      end
+    end
+  end
 
-   def include?(key)
-     current = @head
-     while current != nil
-         return true if current.value == key
-         current = current.next_node
-     end
-     return false
-   end
+  def include?(key)
+    current = @head
+    while current != nil
+        return true if current.data == key
+        current = current.next
+    end
+    return false
+  end
 
-   def size
-     return 0 if @head == nil
-     count = 0
-     current = @head
-     while current != nil
-         count += 1
-         current = current.next_node
-     end
-     return count
-   end
+  def size
+    return 0 if @head == nil
+    count = 0
+    current = @head
+    while current != nil
+        count += 1
+        current = current.next
+    end
+    return count
+  end
 
-   def max
-     return nil if @head == nil
-     current = @head
-     max = current.value
-     while current != nil
-         if current.value > max
-            max = current.value
-         end
-         current = current.next_node
-     end
-     return max
-   end
+  def max
+    return nil if @head == nil
+    current = @head
+    max = current.data
+    while current != nil
+        if current.data > max
+           max = current.data
+        end
+        current = current.next
+    end
+    return max
+  end
 
-   def to_s
-       # Traverse through the list till you hit the "nil" at the end
-       current = @head
-       full_list = []
-       while current.next_node != nil
-           full_list += [current.value.to_s]
-           current = current.next_node
-       end
-       full_list += [current.value.to_s]
-       return full_list.join("->") + "\n"
-   end
+  def to_s
+    return "[]" if @head == nil
+    # Traverse through the list till you hit the "nil" at the end
+    current = @head
+    full_list = []
+    while current.next != nil
+      full_list += [current.data.to_s]
+      current = current.next
+    end
+    full_list += [current.data.to_s]
+    return full_list.join("->")
+  end
 end
