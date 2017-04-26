@@ -90,14 +90,14 @@ class LinkedList
 
   def to_s
     return "[]" if @head == nil
+    toReturn = ""
     # Traverse through the list till you hit the "nil" at the end
     current = @head
-    full_list = []
-    while current.next != nil
-      full_list += [current.data.to_s]
+    while current != nil
+      toReturn += current.data.to_s + "-->"
       current = current.next
     end
-    full_list += [current.data.to_s]
-    return full_list.join("->")
+    toReturn = toReturn[0..-4]
+    return toReturn
   end
 end
