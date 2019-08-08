@@ -1,14 +1,14 @@
-require_relative 'spec_helper'
+require_relative 'test_helper'
 
-describe LinkedList do
-  let(:list) { LinkedList.new }
+describe "List Implementation" do
+  let(:list) { ArrayList.new }
 
   describe "initialize" do
-    it "must return a LinkedList" do
-      list.must_be_instance_of LinkedList
+    it "must return a List" do
+      list.must_be_instance_of ArrayList
     end
 
-    it "must return an empty list" do
+    it "must return an empty List" do
       list.size.must_equal 0
     end
   end
@@ -21,7 +21,7 @@ describe LinkedList do
 
       list.size.must_equal 1
 
-      list.delete(1)
+      list.delete
 
       list.size.must_equal 0
     end
@@ -47,8 +47,7 @@ describe LinkedList do
 
   describe "delete" do
     let(:list) {
-      l = LinkedList.new
-      l.add(0)
+      l = ArrayList.new
       l.add(1)
       l.add(2)
 
@@ -58,26 +57,25 @@ describe LinkedList do
     it "must decrease the size by 1" do
       start_size = list.size
 
-      list.delete(1)
+      list.delete
 
       list.size.must_equal start_size - 1
     end
 
-    it "must remove the specified value from the list" do
+    it "must remove the last value from the list" do
       list.include?(1).must_equal true
       list.include?(2).must_equal true
 
-      list.delete(1)
+      list.delete
 
-      list.include?(1).must_equal false
-      list.include?(2).must_equal true
+      list.include?(1).must_equal true
+      list.include?(2).must_equal false
     end
   end
 
   describe "include?" do
     let(:list) {
-      l = LinkedList.new
-      l.add(0)
+      l = ArrayList.new
       l.add(1)
 
       l
@@ -94,8 +92,7 @@ describe LinkedList do
 
   describe "max" do
     let(:list) {
-      l = LinkedList.new
-      l.add(0)
+      l = ArrayList.new
       l.add(10)
       l.add(1)
 
